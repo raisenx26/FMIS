@@ -32,6 +32,7 @@ Route::POST('/registryformstore', 'crudController@store')->name('registryformsto
 /* update registry data after edit route */
 Route::PATCH('/registryupdate/{reg_refnum}', 'crudController@update')->name('registryupdate');
 
+Route::GET('/components/table-list', 'crudController@table_list')->name('table_list');
 /* //Comment on production
 Route::get('/examples', function () {
 if (Auth::check()) {
@@ -66,3 +67,4 @@ Route::get('/examples/charts', function () {
 return view('examples/charts');
 }); */
 //End Comment on production
+Route::post('/daterange/fetch_data', 'HomeController@fetch_data')->name('daterange.fetch_data');

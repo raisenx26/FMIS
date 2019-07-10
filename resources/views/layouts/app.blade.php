@@ -17,8 +17,16 @@
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300|Material+Icons' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css" />
 
-    @yield('styles')
+    
 
+    @yield('styles')
+    <style>
+        #header
+        {
+            margin-top: -40px;
+            margin-left: 60px;
+        }
+    </style>
 </head>
 <body>
     @guest
@@ -36,9 +44,12 @@
                         </button>
 
                         <!-- Branding Image -->
-                        <a class="navbar-brand" href="{{ url('/') }}">
-                            {{ config('app.name', 'DOST Finance Management Information System') }}
+
+                        <a  class="navbar-brand" href="{{ url('/') }}">
+                              <img src="{{asset('/img/logo.png')}}" height="50" width="50" style="margin-top: -10px;" >
+                           <p id="header"> {{ config('app.name', 'DOST Financ Management Information System') }} </p>
                         </a>
+
                     </div>
 
                     <div class="collapse navbar-collapse" id="app-navbar-collapse">
@@ -114,12 +125,12 @@
                                 <p>Table List</p>
                             </a>
                         </li>
-                        <li class="{{ Request::is('components/table-list') ? 'active' : '' }}">
+<!--                         <li class="{{ Request::is('components/table-list') ? 'active' : '' }}">
                             <a href="{{url('components/table-list')}}">
                                 <i class="material-icons">content_paste</i>
                                 <p>Table List</p>
                             </a>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
             </div>

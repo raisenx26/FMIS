@@ -8,8 +8,11 @@
             // Javascript method's body can be found in assets/js/demos.js
             demo.initDashboardPageCharts();
         });
+
     </script>
+    
 @endsection
+
 @section('content')
 <div class="row">
     <div class="col-lg-3 col-md-6 col-sm-6">
@@ -87,7 +90,7 @@
             </div>
             <div class="card-content">
                 <h4 class="title">Daily Sales</h4>
-                <p class="category"><span class="text-success"><i class="fa fa-long-arrow-up"></i> 55%  </span> increase in today sales.</p>
+                <p class="category"><span class="text-success"><i class="fa fa-long-arrow-up"></i> 100%  </span> increase in today sales.</p>
             </div>
             <div class="card-footer">
                 <div class="stats">

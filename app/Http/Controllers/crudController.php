@@ -56,7 +56,7 @@ class crudController extends Controller
         $registry->reg_remarks = request()->reg_remarks;
         $registry->timestamps = request()->timestamps;
         $registry->save();
-        return redirect('home');
+        return redirect('components/Registry');
 
     }
 
@@ -84,7 +84,7 @@ class crudController extends Controller
         $rc_data = RCTable::all();
         $payee_data = PayeeTable::all();
         $uacs_data = UACSTable::all();
-        return view('registryedit', compact('rc_data', 'payee_data', 'uacs_data', 'editdata', 'regform'));
+        return view('components/registryedit', compact('rc_data', 'payee_data', 'uacs_data', 'editdata', 'regform'));
     }
 
     /**
@@ -110,7 +110,7 @@ class crudController extends Controller
         $updatedata->reg_remarks = request()->reg_remarks;
         $updatedata->timestamps = request()->timestamps;
         $updatedata->save();
-        return redirect('home');
+        return redirect('components/Registry');
 
     }
 
@@ -124,14 +124,15 @@ class crudController extends Controller
     {
         $deletedata = Registries::find($reg_refnum);
         $deletedata->delete();
-        return redirect('home');
+        return redirect('components/Registry');
     }
     public function viewpage()
-    {
-        $rc_data = Registries::all();
+    {   
+        $registry = Registries::all();
+        $rc_data = RCTable::all();
         $payee_data = PayeeTable::all();
         $uacs_data = UACSTable::all();
-        return view('/components/Registry', compact('rc_data', 'payee_data', 'uacs_data'));
+        return view('/components/Registry', compact('registry','rc_data', 'payee_data', 'uacs_data'));
     }
     public function printdata($reg_refnum)
     {
@@ -140,5 +141,14 @@ class crudController extends Controller
         PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true]);
         $pdf = PDF::loadview('components.printview.pdf_print', compact('rc_data', 'dataid'));
         return $pdf->stream('timoy.pdf');
+    }
+
+     public function table_list()
+    {   
+        $registry = Registries::all();
+        $rc_data = RCTable::all();
+        $payee_data = PayeeTable::all();
+        $uacs_data = UACSTable::all();
+        return view('/components/table-list', compact('registry','rc_data', 'payee_data', 'uacs_data'));
     }
 }
