@@ -84,16 +84,16 @@ label{
 <div class="form_content">
 
 <form method="POST" action="{{ URL::to('registryupdate',Request::segment(2)) }}">
-    {{ csrf_field() }}  
+    {{ csrf_field() }}
     {{ method_field('PATCH') }}
 
       <div class="card-header" data-background-color="#47d5ffeb">
-      <h3 class="title">Edit registry to ID:{{ $editdata->reg_refnum }}</h3>
+      <h3 class="title">Edit Registry</h3>
   </div>
 
     <div class="form-row">
 {{-- date field --}}
-            
+
 
             <div class="form-group">
             <label class="label-control"><b>Date</b></label>
@@ -141,7 +141,7 @@ label{
       </div>
 
 
-   
+
 
       {{-- res center --}}
 <div class="form-group">
@@ -167,7 +167,7 @@ label{
       </select>
     </div>
   </div>
-       
+
 
     <div class="form-group row">
         <label for="reg_uacs" class="col-5 col-form-label"><b>Unified Accounts Code Structure (UACS)</b></label>
@@ -206,7 +206,7 @@ label{
       <input  type="text" name="subaccount" id="subaccount" class="form-control" value="{{ $editdata->reg_subacccode }}" />
     </div>
   </div>
- 
+
 
      <div class="form-group row">
     <label for="reg_amount" class="col-5 col-form-label">Sub Amount</label>

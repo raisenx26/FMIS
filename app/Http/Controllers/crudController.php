@@ -7,6 +7,7 @@ use App\RCTable;
 use App\Registries;
 use App\UACSTable;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use PDF;
 
 class crudController extends Controller
@@ -77,14 +78,18 @@ class crudController extends Controller
      * @param  int  $reg_refnum
      * @return \Illuminate\Http\Response
      */
-    public function edit($reg_refnum)
+    public function edit($registry1)
     {
-        $editdata = Registries::find($reg_refnum);
+        $decrypted = Crypt::decryptString($registry1);
+        $dec = json_decode($decrypted);
+        $editdata = Registries::find($dec[0]->reg_refnum);
         $regform = Registries::all();
         $rc_data = RCTable::all();
         $payee_data = PayeeTable::all();
         $uacs_data = UACSTable::all();
-        return view('components/registryedit', compact('rc_data', 'payee_data', 'uacs_data', 'editdata', 'regform'));
+        /*  dd($dec[0]->reg_refnum); */
+        return view('components/registryedit', compact('rc_data', 'payee_data', 'uacs_data', 'editdata', 'regform', 'dec'));
+
     }
 
     /**
@@ -127,28 +132,36 @@ class crudController extends Controller
         return redirect('components/Registry');
     }
     public function viewpage()
-    {   
-        $registry = Registries::all();
+    {
+        $registry1 = Crypt::encryptString(Registries::all('reg_refnum'));
+        $registry = Registries::paginate(10);
         $rc_data = RCTable::all();
         $payee_data = PayeeTable::all();
         $uacs_data = UACSTable::all();
-        return view('/components/Registry', compact('registry','rc_data', 'payee_data', 'uacs_data'));
+        return view('/components/Registry', compact('registry', 'rc_data', 'payee_data', 'uacs_data', 'registry1'));
     }
-    public function printdata($reg_refnum)
+    public function printdata($encrypted)
     {
-        $dataid = Registries::find($reg_refnum);
+
+        $decrypted = Crypt::decryptString($encrypted);
+
+        $dec = json_decode($decrypted);
+
+        $dataid = Registries::find($dec[0]->reg_refnum);
+
         $rc_data = Registries::all();
+
         PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true]);
-        $pdf = PDF::loadview('components.printview.pdf_print', compact('rc_data', 'dataid'));
-        return $pdf->stream('timoy.pdf');
+        $pdf = PDF::loadview('components.printview.pdf_print', compact('rc_data', 'dataid', 'enc'));
+        return $pdf->stream($encrypted . '.pdf');
     }
 
-     public function table_list()
-    {   
+    public function table_list()
+    {
         $registry = Registries::all();
         $rc_data = RCTable::all();
         $payee_data = PayeeTable::all();
         $uacs_data = UACSTable::all();
-        return view('/components/table-list', compact('registry','rc_data', 'payee_data', 'uacs_data'));
+        return view('/components/table-list', compact('registry', 'rc_data', 'payee_data', 'uacs_data'));
     }
 }

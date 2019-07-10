@@ -28,6 +28,6 @@ class Rctable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('rescenters');
+        Schema::dropIfExists('RCTable');
     }
 }

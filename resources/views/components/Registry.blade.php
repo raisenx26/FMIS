@@ -4,7 +4,7 @@
     {
         font-size: 9.5px;
     }
- 
+
     #hover:hover
     {
         background-color: #9ae9f3;
@@ -48,18 +48,18 @@
 	<div class="card-content table-responsive">
             <table class="table">
                     <thead class="text-primary">
-                        <th><b>Date</b></th>
-                        <th><b>ORS</b></th>
-                        <th><b>Payee</b></th>
-                        <th><b>Responsibility Center</b></th>
-                        <th><b>PAP</th>
-                        <th><b>UACS</b></th>
-                        <th><b>Amount</b></th>
-                        <th><b>Particulars</b></th>
-                        <th><b>Sub Account Code</b></th>
-                        <th><b>Sub Amount</b></th>
-                        <th><b>Remarks</b></th>
-                        <th><b>Action</b></th>
+                        <th>Date</th>
+                        <th>ORS</th>
+                        <th>Payee</th>
+                        <th>Responsibility Center</th>
+                        <th>PAP</th>
+                        <th>UACS</th>
+                        <th>Amount</th>
+                        <th>Particulars</th>
+                        <th>Sub Account Code</th>
+                        <th>Sub Amount</th>
+                        <th>Remarks</th>
+                        <th>Action</th>
                     </thead>
                     <tbody>
                             @foreach($registry as $data)
@@ -76,13 +76,13 @@
                                     <td>{{ $data->reg_amount }}</td>
                                     <td>{{ $data->reg_remarks }}</td>
                                     <td>
-                                                <a href="{{ route('registry.edit',$data->reg_refnum) }}"><i class="material-icons">edit</i></a>
+                                                <a href="{{ route('registry.edit',$registry1) }}"><i class="material-icons">edit</i></a>
                                                 {{csrf_field()}}
                                                 {{ method_field('GET') }}
                                                 <a href="{{ route('registrydelete',$data->reg_refnum) }}"><i class="material-icons">delete</i></a>
                                                 {{csrf_field()}}
                                                 {{ method_field('GET') }}
-                                                <a href="{{ route('printdata',$data->reg_refnum) }}"><i class="material-icons">print</i></a>
+                                                <a href="{{ route('printdata',$registry1) }}"><i class="material-icons">print</i></a>
                                                 {{csrf_field()}}
                                                 {{ method_field('GET') }}
                                     </td>
@@ -95,12 +95,12 @@
 		</div>
     </div>
 </div>
-
-            <a data-toggle="modal" data-target=".bd-example-modal-lg" class="float" title="Add registry">
-                 <i  id="add" class="fa fa-plus my-float"></i>
-            </a>
-
-
+<a data-toggle="modal" data-target=".bd-example-modal-lg" class="float" title="Add registry">
+    <i  id="add" class="fa fa-plus my-float"></i>
+</a>
+<ul class="pagination pagination-primary">
+    <li></li>{{ $registry->links() }}
+</ul>
 
 @endsection()
  <!-- Modal -->
@@ -119,16 +119,16 @@
         <!-- MODAL CONTENT START -->
         <form method="POST" action="{{ URL::to('/registryformstore') }}">
             {{ csrf_field() }}
-            
+
 
         <div class="form-group">
 
             <label class="label-control"><b>Date</b></label>
-            
+
             <input id="reg_date" name="reg_date" type="date" required="required" class="form-control datetimepicker" />
         </div>
 
-        
+
         <div class="form-inline">
 
             <label for="reg_ors" class="label-control"><b>Obligation Request and Status</b></label>
@@ -179,7 +179,7 @@
     </div>
   </div>
 
- 
+
 
      <div class="form-group row">
         <label for="reg_uacs" class="col-5 col-form-label"><b>Unified Accounts Code Structure (UACS)</b></label>
@@ -244,4 +244,3 @@
     </div>
   </div>
 </div>
- 
