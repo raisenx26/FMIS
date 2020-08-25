@@ -19,13 +19,21 @@
         color: black;
     }
 
-    #total {
+      #total {
         padding-left: 20px;
         padding-top: 20px;
     }
     #rc_label
     {
         color: white;
+    }
+    #burs_back
+    {
+        background-color: #2878e2;
+    }
+    #burs_tr
+    {
+        color: #2878e2;
     }
 
 </style>
@@ -43,12 +51,13 @@
 <script type="text/javascript" src="{{ URL::asset('js/pdfFromHTML.js') }}"></script>
 
 @section('content')
-<!-- filter table for ORS -->
+
+<!-- filter table for BURS -->
 <div class="row">
     <div class="col-md-12">
         <div class="card">
-            <div class="card-header" data-background-color="#47d5ffeb">
-                <h4 class="title">Filter ORS registries</h4>
+            <div class="card-header" id="burs_back">
+                <h4 class="title">Filter BURS registries</h4>
                 <!-- <p class="category">Total Records - <b><span id="total_records"></span></b></p> -->
 
                 <div class="input-group input-daterange" id="dates">
@@ -60,13 +69,13 @@
 
                 <div class="form-group ">
                     <label id="rc_label" for="reg_rc" class=" col-form-label"><b>Responsibility Center</b></label>
-                    <div class="col-7">  
-                        <select id="reg_rcz" name="reg_rcz"  class="form-control selectpicker"  >
+                    <div class="col-7">
+                    <select id="reg_rcz" name="reg_rcz"  class="form-control selectpicker"  >
                         <option></option>
-                        @foreach($registry2 as $reg)
+                        @foreach($registry5 as $reg)
                         <option value="{{ $reg->reg_rc }}">{{ $reg->reg_rc }}</option>
                         @endforeach
-                   </select>
+                      </select>  
                     </div>
                 </div>
 
@@ -75,7 +84,7 @@
 
                 <button type="button" name="filter" id="filter" class="btn btn-primary btn-sm3">Filter</button>
                 <button type="button" name="refresh" id="refresh" class="btn btn-danger btn-sm3">Reset Filter</button>
-                <a id="pdf" title="Download PDF" href="#" onclick="HTMLtoPDF()">Download PDF</a>
+                <a id="pdf" href="#" title="Download PDF" onclick="HTMLtoPDF()">Download PDF</a>
 
             </div>
 
@@ -84,13 +93,14 @@
                 <div id="total">
                     <p class="category">Total Records - <b><span id="total_records"></span></b></p>
                     <p class="category">Total Amount - <b><span id="total_amount"></span></b></p>
+                   
                 </div>
                 <div class="card-content table-responsive">
                     <table class="table">
                         <thead class="text-primary">
-                            <tr>
+                            <tr id="burs_tr">
                                 <th>Date</th>
-                                <th>ORS #</th>
+                                <th>BURS #</th>
                                 <th>Payee</th>
                                 <th>Residential Center</th>
                                 <th>PAP</th>
@@ -115,6 +125,7 @@
 
 
 
+
 @endsection()
 
 <script>
@@ -131,11 +142,11 @@
 
         var _token = $('input[name="_token"]').val();
 
-        fetch_data();
+        fetch_data_burs();
 
-        function fetch_data(from_date = '', to_date = '', reg_rcz = '') {
+        function fetch_data_burs(from_date = '', to_date = '', reg_rcz = '') {
             $.ajax({
-                url: "{{ route('daterange.fetch_data') }}",
+                url: "{{ route('daterange.fetch_data_burs') }}",
                 method: "POST",
                 data: {
                     from_date: from_date,
@@ -147,6 +158,7 @@
                 success: function (data) {
                     var output = '';
                      var total_am = 0;
+                 
                     $('#total_records').text(data.length);
                     $('#from_date').getdate;
                     for (var count = 0; count < data.length; count++) {
@@ -165,10 +177,11 @@
                         output += '<td>' + data[count].reg_remarks + '</td> </tr>';
                         total_am += data[count].reg_amount;
                     }
-
+                    
                     $('tbody').html(output);
                     $('#total_amount').text(total_am);
-                }
+
+               }
 
             })
         }
@@ -178,7 +191,7 @@
             var to_date = $('#to_date').val();
             var reg_rcz = $('#reg_rcz').val();
             if (from_date != '' && to_date != '' ) {
-                fetch_data(from_date, to_date, reg_rcz);
+                fetch_data_burs(from_date, to_date, reg_rcz);
             } else {
                 alert('Both Date is required');
             }
@@ -188,7 +201,7 @@
             $('#from_date').val('');
             $('#to_date').val('');
              $('#reg_rcz').val('');
-            fetch_data();
+            fetch_data_burs();
         });
 
 
